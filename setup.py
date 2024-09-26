@@ -20,7 +20,7 @@ setup(
         packages=find_packages(),
         install_requires=[], # add any additional packages that 
         # needs to be installed along with your package. Eg: 'caer'
-        url = "https://github.com/SchulzR97/OpenCV-UI",
+        url = "https://github.com/SchulzR97/rsp-common",
 
         keywords=['python', 'OpenCV', 'UI', 'UserInterface', 'Frontend'],
         classifiers= [
