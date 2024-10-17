@@ -63,6 +63,15 @@ def print_c(text:str, foreground:Foreground = None, background:Background = None
         out_str += RESET
         print(out_str)
 
+def warn(text:str):
+    print_c(f'WARNING:\t{text}', foreground=Foreground.YELLOW)
+
+def error(text:str):
+    print_c(f'ERROR:\t{text}', foreground=Foreground.RED)
+
+def success(text:str):
+    print_c(f'SUCCESS:\t{text}', foreground=Foreground.BRIGHT_GREEN)
+
 if __name__ == '__main__':
     print_c('DEFAULT', foreground=Foreground.RED, background=Background.YELLOW)
 
@@ -74,3 +83,7 @@ if __name__ == '__main__':
 
     print_c('BOLD', bold=True)
     print_c('UNDERLINE', underline=True)
+
+    warn('This is a warning.')
+    error('This is an error.')
+    success('This operation succeeded.')
