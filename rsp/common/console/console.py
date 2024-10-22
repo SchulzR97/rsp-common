@@ -1,4 +1,6 @@
 from enum import Enum
+from multiprocessing import Process
+import time
 
 RESET = '\033[0m' # called to return to standard terminal text color
 BOLD = '\033[1m'
@@ -72,6 +74,60 @@ def error(text:str):
 def success(text:str):
     print_c(f'SUCCESS:\t{text}', foreground=Foreground.BRIGHT_GREEN)
 
+def delete_line():
+    out_str = ''
+    for i in range(100):
+        out_str += ' '
+    print(out_str, end = '\r')
+
+class WaitControl():
+    def __init__(self, desc:str = '', len:int = 10, size:int = 50):
+        self.desc = desc
+        def get_desc():
+            return self.desc
+        
+        self.process = Process(target=self.cycle, args=(len, size, desc))
+        self.process.start()
+
+    def __del__(self):
+        self.process.terminate()
+        delete_line()
+
+    def destroy(self):
+        self.__del__()        
+
+    def cycle(self, l, size, desc):
+        # l = state['l']
+        # size = state['size']
+        val = 0
+        reversed = False
+        while True:
+            delete_line()
+            out_str = ''
+            while len(out_str) < val:
+                out_str += ' '
+            while len(out_str) < val + l and len(out_str) < size:
+                out_str += '▮'
+            while len(out_str) < size:
+                out_str += ' '
+            out_str = desc + '|' + out_str + '|'
+
+            print(out_str, end='\r')
+            time.sleep(0.02)
+
+            if reversed:
+                if val == 0:
+                    reversed = False
+                    val += 1
+                else:
+                    val -= 1
+            else:
+                if val == size - l:
+                    reversed = True
+                    val -= 1
+                else:
+                    val += 1
+
 if __name__ == '__main__':
     print_c('DEFAULT', foreground=Foreground.RED, background=Background.YELLOW)
 
@@ -87,3 +143,13 @@ if __name__ == '__main__':
     warn('This is a warning.')
     error('This is an error.')
     success('This operation succeeded.')
+
+
+    waitControl = WaitControl(desc='waiting...')
+
+    for i in range(5):
+        time.sleep(1.)
+
+    waitControl.destroy()
+
+    print('finnished')
