@@ -38,6 +38,30 @@ def add_rectangle(img, p1, p2, opacity, color):
 
     return out_img
 
+def add_overlay(img, overlay, p, opacity):
+    assert img.shape[2] == overlay.shape[2], f'Expected img and overlay to have the same depth. img.shape: {img.shape}, overlay.shape: {overlay.shape}'
+
+    if img.dtype != np.uint8:
+        out_img = np.array(img * 255, dtype=np.uint8)
+    else:
+        out_img = copy.copy(img)
+
+    p1 = p
+    p2 = [p1[0] + overlay.shape[1], p1[1] + overlay.shape[0]]
+
+    if p1[0] == p2[0]:
+        return out_img
+    if p1[1] == p2[1]:
+        return out_img
+    
+    sub_img = out_img[p1[1]:p2[1], p1[0]:p2[0]]
+
+    res = cv.addWeighted(sub_img, 1. - opacity, overlay, opacity, 10.)
+
+    out_img[p1[1]:p2[1], p1[0]:p2[0]] = res
+
+    return out_img
+
 def add_text(img, text, p, width = None, height = None, scale = 1., foreground = (0, 0, 0), background = None,
              background_opacity = 0.5, vertical_align = 'top', horizontal_align = 'left',
              fontFace = cv.FONT_HERSHEY_SIMPLEX, margin = 0, text_thickness = 1):
@@ -138,3 +162,26 @@ def draw_progress(img, val, absolute, vertical_align = 'top'):
                    scale=0.3, foreground=(1., 1., 1.))
 
     return img
+
+if __name__ == '__main__':
+    img = np.full((150, 150, 3), 255, dtype=np.uint8)
+
+    radius = 25
+
+    for i in range(3):
+        angle = (i + 1) / 3 * 360
+        px = 50 + int(np.round(np.cos(angle / 180 * np.pi) * 0.9 * radius))
+        py = 50 + int(np.round(np.sin(angle / 180 * np.pi) * 0.9 * radius))
+        if i == 0:
+            color = (0, 0, 255)
+        elif i == 1:
+            color = (0, 255, 0)
+        else:
+            color = (255, 0, 0)
+        overlay = np.full((100, 100, 3), np.nan, dtype=np.uint8)
+        overlay = cv.circle(overlay, (px, py), radius=radius, color=color, thickness=-1)
+
+        img = add_overlay(img, overlay, (25, 25), opacity=0.5)
+
+    cv.imshow('img', img)
+    cv.waitKey()

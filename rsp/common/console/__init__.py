@@ -1,1 +1,1 @@
-from .console import Foreground, Background, print_c, warn, error, success
+from .console import Foreground, Background, print_c, warn, error, success, WaitControl
