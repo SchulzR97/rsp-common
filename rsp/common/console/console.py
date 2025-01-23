@@ -66,7 +66,7 @@ def print_c(text:str, foreground:Foreground = None, background:Background = None
         if background is not None:
             out_str = background.value + out_str
         out_str += RESET
-        print(out_str, end='\n' if line_feed else None)
+        print(out_str, end='\n' if line_feed else '')
 
 def horizontal_line():
     print('_' * TERMINAL_SIZE.columns)
