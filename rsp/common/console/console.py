@@ -1,6 +1,9 @@
 from enum import Enum
 from multiprocessing import Process
 import time
+import os
+
+TERMINAL_SIZE = os.get_terminal_size()
 
 RESET = '\033[0m' # called to return to standard terminal text color
 BOLD = '\033[1m'
@@ -42,7 +45,7 @@ class Background(Enum):
     BRIGHT_CYAN = '\033[106m'
     WHITE = '\033[107m'
 
-def print_c(text:str, foreground:Foreground = None, background:Background = None, bold:bool = False, underline:bool = False):
+def print_c(text:str, foreground:Foreground = None, background:Background = None, bold:bool = False, underline:bool = False, line_feed:bool = True):
     lines = text.split('\n')
     for line in lines:
         
@@ -63,7 +66,10 @@ def print_c(text:str, foreground:Foreground = None, background:Background = None
         if background is not None:
             out_str = background.value + out_str
         out_str += RESET
-        print(out_str)
+        print(out_str, end='\n' if line_feed else None)
+
+def horizontal_line():
+    print('_' * TERMINAL_SIZE.columns)
 
 def warn(text:str):
     print_c(f'WARNING:\t{text}', foreground=Foreground.YELLOW)
