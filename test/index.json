@@ -1,0 +1,32 @@
+[
+	{
+		"id":			"TUC-AR/model005",
+		"url":			"https://drive.google.com/file/d/1cMaGRmDjnx43fLHkYFif29BkXYZzmj23/view?usp=sharing",
+		"domain":		"Action Recognition (Classification)",
+		"dataset":		"University of Technology Chemnitz - Action Recognition (TUC-AR-RGB)",
+		"description":	"2D CNN feature extraction followed by mulihead-self-attention and classification layer",
+		"input":		"(batch_size, sequence_length=30, channels=3, width=300, height=300)",
+		"output":		"(batch_size, number_of_classes=10)",
+		"accuracy":		"0.9604"
+	},
+	{
+		"id":			"TUC-AR/model008",
+		"url":			"https://drive.google.com/file/d/1j7TLo1R15XUatD5RXhDme5SPhEcHHTYz/view?usp=sharing",
+		"domain":		"Action Recognition (Classification)",
+		"dataset":		"University of Technology Chemnitz - Action Recognition (TUC-AR-RGB+D)",
+		"description":	"Multi-stage 3D CNN feature extraction followed by classification layer",
+		"input":		"(batch_size, sequence_length=30, channels=4, width=400, height=400)",
+		"output":		"(batch_size, number_of_classes=10)",
+		"accuracy":		"0.9949"
+	},
+	{
+		"id":			"UCF101/model008",
+		"url":			"https://drive.google.com/file/d/1NoTvusFldM0Cc1G1-IZ47cFKIUrU7sKw/view?usp=sharing",
+		"domain":		"Action Recognition (Classification)",
+		"dataset":		"University of Central Florida - Action Recognition (UCF101)",
+		"description":	"Multi-stage 3D CNN feature extraction followed by classification layer",
+		"input":		"(batch_size, sequence_length=60, channels=3, width=400, height=400)",
+		"output":		"(batch_size, number_of_classes=101)",
+		"accuracy":		"0.9943"
+	}
+]
